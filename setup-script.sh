@@ -2,7 +2,7 @@
 
 # Variables
 resourceGroup="acdnd-c4-project"
-location="westus"
+location="westeurope"
 osType="Ubuntu2204"
 vmssName="udacity-vmss"
 adminName="udacityadmin"
@@ -17,10 +17,10 @@ probeName="tcpProbe"
 vmSize="Standard_B1s"
 storageType="Standard_LRS"
 
-# Create resource group. 
-# This command will not work for the Cloud Lab users. 
-# Cloud Lab users can comment this command and 
-# use the existing Resource group name, such as, resourceGroup="cloud-demo-153430" 
+# Create resource group.
+# This command will not work for the Cloud Lab users.
+# Cloud Lab users can comment this command and
+# use the existing Resource group name, such as, resourceGroup="cloud-demo-153430"
 echo "STEP 0 - Creating resource group $resourceGroup..."
 
 az group create \
@@ -45,8 +45,8 @@ echo "Storage account created: $storageAccount"
 echo "STEP 2 - Creating network security group $nsgName"
 
 az network nsg create \
---resource-group $resourceGroup \
 --name $nsgName \
+--resource-group $resourceGroup \
 --verbose
 
 echo "Network security group created: $nsgName"
@@ -58,6 +58,7 @@ az vmss create \
   --resource-group $resourceGroup \
   --name $vmssName \
   --image $osType \
+  --orchestration-mode uniform \
   --vm-sku $vmSize \
   --nsg $nsgName \
   --subnet $subnetName \
@@ -69,7 +70,7 @@ az vmss create \
   --upgrade-policy-mode automatic \
   --admin-username $adminName \
   --generate-ssh-keys \
-  --verbose 
+  --verbose
 
 echo "VM scale set created: $vmssName"
 
