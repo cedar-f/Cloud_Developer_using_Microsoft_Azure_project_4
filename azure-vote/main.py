@@ -28,18 +28,19 @@ stats = stats_module.stats
 view_manager = stats.view_manager
 config_integration.trace_integrations(["logging"])
 config_integration.trace_integrations(["requests"])
+InstrumentationKey = "InstrumentationKey=f58ba75f-2d3c-4525-8ad6-c77dcb127e48"
 
 # Logging
 logger = logging.getLogger(__name__)
 handler = AzureLogHandler(
-    connection_string="InstrumentationKey=f58ba75f-2d3c-4525-8ad6-c77dcb127e48"
+    connection_string=InstrumentationKey
 )
 handler.setFormatter(logging.Formatter("%(traceId)s %(spanId)s %(message)s"))
 logger.addHandler(handler)
 # Logging custom Events
 logger.addHandler(
     AzureEventHandler(
-        connection_string="InstrumentationKey=f58ba75f-2d3c-4525-8ad6-c77dcb127e48"
+        connection_string=InstrumentationKey
     )
 )
 # Set the logging level
@@ -48,14 +49,14 @@ logger.setLevel(logging.INFO)
 # Metrics
 exporter = metrics_exporter.new_metrics_exporter(
     enable_standard_metrics=True,
-    connection_string="InstrumentationKey=f58ba75f-2d3c-4525-8ad6-c77dcb127e48",
+    connection_string=InstrumentationKey,
 )
 view_manager.register_exporter(exporter)
 
 # Tracing
 tracer = Tracer(
     exporter=AzureExporter(
-        connection_string="InstrumentationKey=f58ba75f-2d3c-4525-8ad6-c77dcb127e48"
+        connection_string=InstrumentationKey
     ),
     sampler=ProbabilitySampler(1.0),
 )
@@ -66,7 +67,7 @@ app = Flask(__name__)
 middleware = FlaskMiddleware(
     app,
     exporter=AzureExporter(
-        connection_string="InstrumentationKey=f58ba75f-2d3c-4525-8ad6-c77dcb127e48"
+        connection_string=InstrumentationKey
     ),
     sampler=ProbabilitySampler(rate=1.0),
 )
@@ -176,14 +177,14 @@ def index():
 
             # Get current values
             vote1 = r.get(button1).decode("utf-8")
-            #properties = {"custom_dimensions": {"Cats Vote": vote1}}
+            properties = {"custom_dimensions": {"Cats Vote": vote1}}
             # TODO: use logger object to log cat vote
-            #logger.info("Cats Vote", extra=properties)
+            logger.info("Cats Vote", extra=properties)
 
             vote2 = r.get(button2).decode("utf-8")
-            #properties = {"custom_dimensions": {"Dogs Vote": vote2}}
+            properties = {"custom_dimensions": {"Dogs Vote": vote2}}
             # TODO: use logger object to log dog vote
-            #logger.info("Dogs Vote", extra=properties)
+            logger.info("Dogs Vote", extra=properties)
 
             # Return results
             return render_template(
@@ -198,7 +199,7 @@ def index():
 
 if __name__ == "__main__":
     # comment line below when deploying to VMSS
-    # app.run()  # local
+    app.run()  # local
     # uncomment the line below before deployment to VMSS
-    app.run(host="0.0.0.0", threaded=True, debug=True)  # remote
+    # app.run(host="0.0.0.0", threaded=True, debug=True)  # remote
     # app.run(host='0.0.0.0', threaded=True, debug=True, port=5000) # remote
