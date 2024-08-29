@@ -45,8 +45,8 @@ echo "Storage account created: $storageAccount"
 echo "STEP 2 - Creating network security group $nsgName"
 
 az network nsg create \
---name $nsgName \
 --resource-group $resourceGroup \
+--name $nsgName \
 --verbose
 
 echo "Network security group created: $nsgName"
