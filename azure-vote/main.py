@@ -28,7 +28,7 @@ stats = stats_module.stats
 view_manager = stats.view_manager
 config_integration.trace_integrations(["logging"])
 config_integration.trace_integrations(["requests"])
-InstrumentationKey = "InstrumentationKey=f410df9e-cf8c-4589-9338-bcdd2b24e17c"
+InstrumentationKey = "InstrumentationKey=83006c70-8d0e-4611-b2b6-6b3ef8e12f10"
 
 # Logging
 logger = logging.getLogger(__name__)
@@ -199,7 +199,7 @@ def index():
 
 if __name__ == "__main__":
     # comment line below when deploying to VMSS
-    app.run()  # local
+    # app.run()  # local
     # uncomment the line below before deployment to VMSS
-    # app.run(host="0.0.0.0", threaded=True, debug=True)  # remote
+    app.run(host="0.0.0.0", threaded=True, debug=True)  # remote
     # app.run(host='0.0.0.0', threaded=True, debug=True, port=5000) # remote
