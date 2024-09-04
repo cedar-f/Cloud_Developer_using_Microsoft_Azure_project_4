@@ -19,4 +19,4 @@ docker push project4acr.azurecr.io/azure-vote-front:v1
 # Verify if you image is up in the cloud.
 az acr repository list --name project4acr.azurecr.io --output table
 # Associate the AKS cluster with the ACR
-# az aks update -n $clusterName -g $resourceGroup --attach-acr $myAcrName
+
