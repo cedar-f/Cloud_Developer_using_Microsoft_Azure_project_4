@@ -28,7 +28,7 @@ stats = stats_module.stats
 view_manager = stats.view_manager
 config_integration.trace_integrations(["logging"])
 config_integration.trace_integrations(["requests"])
-InstrumentationKey = "InstrumentationKey=74b4bf8a-067f-4384-bbec-7bd986f6ea15"
+InstrumentationKey = "InstrumentationKey=cc4c2c49-86e6-4607-a24b-31291d26e8c9"
 
 # Logging
 logger = logging.getLogger(__name__)
